@@ -16,9 +16,12 @@ import lombok.RequiredArgsConstructor;
 import tool.management.backend.dto.AuthRequest;
 import tool.management.backend.dto.AuthResponse;
 import tool.management.backend.dto.RegisterRequest;
+import tool.management.backend.dto.RegisterStudenteRequest;
+import tool.management.backend.models.Studente;
 import tool.management.backend.models.User;
 import tool.management.backend.repositories.UserRepository;
 import tool.management.backend.security.JwtUtil;
+import tool.management.backend.services.StudenteService;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -28,8 +31,8 @@ public class AuthController {
 
     private final AuthenticationManager authenticationManager;
     private final JwtUtil jwtUtil;
-    private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final StudenteService studenteService;
 
     @PostMapping("/login")
     public ResponseEntity<?> authenticateUser(@RequestBody AuthRequest request) {
@@ -42,11 +45,18 @@ public class AuthController {
         return ResponseEntity.ok(new AuthResponse(jwt));
     }
 
-    @PostMapping("/register")
-    public void registerUser(@RequestBody RegisterRequest request) {
-        String hashedPassword = passwordEncoder.encode(request.getRawPassword());
-        User user = new User(null, request.getUsername(), hashedPassword, request.getRole());
-        userRepository.save(user);
+    @PostMapping("/register/studente")
+    public ResponseEntity<Studente> registerStudente(@RequestBody RegisterStudenteRequest request) {
+        return ResponseEntity.ok(studenteService.registerStudente(
+                request.getUsername(),
+                passwordEncoder.encode(request.getRawPassword()),
+                request.getNome(),
+                request.getCognome(),
+                request.getDataNascita(),
+                request.getLuogoNascita(),
+                request.getResidenza(),
+                request.getDataImmatricolazione()
+        ));
     }
 
 }
