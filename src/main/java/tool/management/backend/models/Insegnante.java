@@ -28,4 +28,16 @@ public class Insegnante extends User {
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Materia> materie;
 
+    public void associaMateria(Materia materia) {
+        Boolean giaEsistente = false;
+        for (Materia attuale:materie) {
+            if (attuale == materia) {
+                giaEsistente = true;
+            }
+        }
+        if (giaEsistente == false) {
+            materie.add(materia);
+        }
+    }
+
 }

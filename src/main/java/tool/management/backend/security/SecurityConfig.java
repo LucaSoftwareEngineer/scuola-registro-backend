@@ -32,6 +32,7 @@ public class SecurityConfig {
                         auth -> auth.requestMatchers("/api/auth/login").permitAll()
                                 .requestMatchers("/api/auth/register/insegnante").permitAll()
                                 .requestMatchers("/api/auth/register/studente").permitAll()
+                                .requestMatchers("/api/insegnante/associa/materia").authenticated()
                                 .requestMatchers("/api/materia/aggiungi").authenticated()
                                 .requestMatchers("/api/materia/modifica").authenticated()
                                 .requestMatchers("/api/materia/elimina").authenticated()
