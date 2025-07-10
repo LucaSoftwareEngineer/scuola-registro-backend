@@ -31,7 +31,12 @@ public class SecurityConfig {
                 .authorizeHttpRequests(
                         auth -> auth.requestMatchers("/api/auth/login").permitAll()
                                 .requestMatchers("/api/auth/register/insegnante").permitAll()
-                                .requestMatchers("/api/auth/register/studente").permitAll())
+                                .requestMatchers("/api/auth/register/studente").permitAll()
+                                .requestMatchers("/api/materia/aggiungi").authenticated()
+                                .requestMatchers("/api/materia/modifica").authenticated()
+                                .requestMatchers("/api/materia/elimina").authenticated()
+                                .requestMatchers("/api/materia/elimina/**").authenticated()
+                )
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .addFilterBefore(

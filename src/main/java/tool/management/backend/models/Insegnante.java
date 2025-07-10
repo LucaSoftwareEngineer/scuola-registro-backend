@@ -1,14 +1,13 @@
 package tool.management.backend.models;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.PrimaryKeyJoinColumn;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.sql.Date;
+import java.util.List;
 
 @Entity
 @AllArgsConstructor
@@ -25,5 +24,8 @@ public class Insegnante extends User {
     private String luogoNascita;
     private String residenza;
     private Date dataAssunzione;
+
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Materia> materie;
 
 }
