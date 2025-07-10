@@ -13,14 +13,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
-import tool.management.backend.dto.AuthRequest;
-import tool.management.backend.dto.AuthResponse;
-import tool.management.backend.dto.RegisterRequest;
-import tool.management.backend.dto.RegisterStudenteRequest;
+import tool.management.backend.dto.*;
+import tool.management.backend.models.Insegnante;
 import tool.management.backend.models.Studente;
 import tool.management.backend.models.User;
 import tool.management.backend.repositories.UserRepository;
 import tool.management.backend.security.JwtUtil;
+import tool.management.backend.services.InsegnanteService;
 import tool.management.backend.services.StudenteService;
 
 @RestController
@@ -33,6 +32,7 @@ public class AuthController {
     private final JwtUtil jwtUtil;
     private final PasswordEncoder passwordEncoder;
     private final StudenteService studenteService;
+    private final InsegnanteService insegnanteService;
 
     @PostMapping("/login")
     public ResponseEntity<?> authenticateUser(@RequestBody AuthRequest request) {
@@ -56,6 +56,20 @@ public class AuthController {
                 request.getLuogoNascita(),
                 request.getResidenza(),
                 request.getDataImmatricolazione()
+        ));
+    }
+
+    @PostMapping("/register/insegnante")
+    public ResponseEntity<Insegnante> registerInsegnante(@RequestBody RegisterInsegnanteRequest request) {
+        return ResponseEntity.ok(insegnanteService.registerInsegnante(
+                request.getUsername(),
+                passwordEncoder.encode(request.getRawPassword()),
+                request.getNome(),
+                request.getCognome(),
+                request.getDataNascita(),
+                request.getLuogoNascita(),
+                request.getResidenza(),
+                request.getDataAssunzione()
         ));
     }
 
