@@ -25,7 +25,7 @@ public class Insegnante extends User {
     private String residenza;
     private Date dataAssunzione;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @ManyToMany
     private List<Materia> materie;
 
     public void associaMateria(Materia materia) {
@@ -37,6 +37,18 @@ public class Insegnante extends User {
         }
         if (giaEsistente == false) {
             materie.add(materia);
+        }
+    }
+
+    public void disassociaMateria(Materia materia) {
+        Boolean giaEsistente = false;
+        for (Materia attuale:materie) {
+            if (attuale == materia) {
+                giaEsistente = true;
+            }
+        }
+        if (giaEsistente == true) {
+            materie.remove(materia);
         }
     }
 

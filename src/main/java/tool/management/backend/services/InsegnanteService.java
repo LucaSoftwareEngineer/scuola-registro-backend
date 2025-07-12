@@ -56,4 +56,19 @@ public class InsegnanteService {
         return true;
     }
 
+    public Boolean disassociaMateriaInsegnante(
+            Long idUser,
+            Long idMateria
+    ) {
+        try {
+            Insegnante insegnante = insegnanteRepository.findById(idUser).get();
+            Materia materia = materiaRepository.findById(idMateria).get();
+            insegnante.disassociaMateria(materia);
+            insegnanteRepository.save(insegnante);
+        } catch (Exception e) {
+            return false;
+        }
+        return true;
+    }
+
 }
